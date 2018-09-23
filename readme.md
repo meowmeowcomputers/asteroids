@@ -11,7 +11,7 @@ Use this format for the POST body:
 	}  
 }  
 If there are asteroids in range of your specified distance, you'll get an array of them.  
-If there are no asteroids in range of your specifed distance, youll get an object containing an empty array:  
+If there are no asteroids in range of your specifed distance, you'll get an object containing an empty array:  
 {  
   "asteroids":  
 }  
