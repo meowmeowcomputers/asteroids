@@ -18,7 +18,6 @@ function findInRange(distance, astroids){
           inRange.astroids.push(astroids[key][i])
         }
       }
-      // console.log(key, obj[key]);
   }
   return inRange
 }
@@ -49,13 +48,11 @@ app.post('/',(req,res)=>{
       return inRange
     })
     .then((inRange)=>{
-      // console.log(response.data)
       res.send(inRange)
     })
     .catch((err)=>{
       res.send("Sorry, there was an error")
     })
-  // nasaResponse = askNasa(urlToNasa)
 })
 
 
