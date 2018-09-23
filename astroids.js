@@ -11,7 +11,6 @@ function findInRange(distance, astroids){
   // console.log(astroids)
   let inRange = {astroids:[]}
   for (let key of Object.keys(astroids)) {
-      console.log(astroids[key].length);
       for(let i=0;i<astroids[key].length;i++){
         let missDistance = parseFloat(astroids[key][i].close_approach_data[0].miss_distance.miles)
         if(distance>missDistance){
