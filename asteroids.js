@@ -10,7 +10,8 @@ const moment = require("moment");
 app.use( parser.json() );
 
 function findInRange(distance, asteroids){
-  // console.log(asteroids)
+  // Function that iterates over the list of asteroids and returns
+  // the asteroids within the distance specified
   let inRange = {asteroids:[]};
   for (let key of Object.keys(asteroids)) {
       for(let i=0;i<asteroids[key].length;i++){
@@ -25,6 +26,7 @@ function findInRange(distance, asteroids){
 
 
 function parseURL(json){
+  // Function that builds the url based off of the properties provided in the POST call
   let url = buildUrl('https://api.nasa.gov/neo/rest/v1/feed', {
   queryParams: {
     start_date: moment(json.dateStart).format('YYYY-MM-DD'),
@@ -37,21 +39,27 @@ function parseURL(json){
   return url;
 }
 
-app.post('/',(req,res)=>{
-  let distance = req.body.within.value;
-  let urlToNasa = parseURL(req.body);
-  axios.get(urlToNasa)
-    .then((response)=>{
-      let asteroids = response.data.near_earth_objects;
-      let inRange = findInRange(distance, asteroids);
-      return inRange;
-    })
-    .then((inRange)=>{
-      res.send(inRange);
-    })
-    .catch((err)=>{
-      res.send("Sorry, there was an error");
-    });
-});
+app.post('/',(req,res,next)=>{
+  try {
+    let distance = req.body.within.value;
+    let urlToNasa = parseURL(req.body);
+    axios.get(urlToNasa)
+      .then((response)=>{
+        let asteroids = response.data.near_earth_objects;
+        let inRange = findInRange(distance, asteroids);
+        return inRange;
+      })
+      .then((inRange)=>{
+        res.send(inRange);
+      })
+      .catch((err)=>{
+        res.send("Sorry, there was an error.");
+      });
+  }
+  catch (err) {
+    res.send("Sorry, there was an error. Please check to make sure the body you sent is in JSON format.");
+  }
+
+})
 
 app.listen(3050);
